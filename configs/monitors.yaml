@@ -1,0 +1,18 @@
+monitors:
+  - name: schema_drift
+    tables: [raw.orders, raw.customers]
+    schedule: "0 */6 * * *"
+    alert_severity: critical
+  - name: volume_anomaly
+    tables: [raw.orders]
+    z_threshold: 3.0
+    schedule: "0 * * * *"
+    alert_severity: critical
+  - name: freshness
+    sources:
+      - {table: raw.orders, warn_hours: 6, error_hours: 12}
+      - {table: raw.events, warn_hours: 1, error_hours: 3}
+alerts:
+  routes:
+    - {severity: critical, channel: pagerduty, destination: data-oncall}
+    - {severity: warning, channel: slack, destination: "#data-alerts"}
