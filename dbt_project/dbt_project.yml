@@ -1,0 +1,13 @@
+name: 'data_quality_monitor'
+version: '1.0.0'
+config-version: 2
+profile: 'default'
+model-paths: ["models"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+vars:
+  freshness_warn_hours: 6
+  freshness_error_hours: 12
+  row_count_delta_pct: 20
